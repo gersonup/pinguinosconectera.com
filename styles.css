@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+.main {
+    background-color: cadetblue;
+    border-radius: 20px;
+    padding: 30px;
+}

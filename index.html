@@ -5,24 +5,70 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- JQuery CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>pinguinos Conectera</title>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <div class="container-flex">
+      <div class="row m-10"">
+        <div class="main m-5 col-6">
+          <h1>Pinguinitos Conec - Tera</h1>
+          <form action="" class="my-form">
+              <div class="form-group">
+                  <label for="n" class="col-6 col-form-label">Número de posiciones:</label>
+                  <input type="number" class="form-control col-3" id="n">
+              </div>
 
-    <form action="">
-        <div class="form-group">
-            <label for="n">Número de posiciones:</label>
-            <input type="number" class="form-control" id="n" placeholder="Ingrese numbero de posiciones deseadas.">
+              <div class="form-group">
+                  <label for="n">Posición vida:</label>
+                  <div class="row">
+                    <div class="col-6 d-inline-flex">
+                      <label for="vidaX">X:</label>
+                      <div class="col-3"><input type="number" class="form-control" id="vidaX"></div>
+                      <label for="vidaY">Y:</label>
+                      <div class="col-3"><input type="number" class="form-control" id="vidaY"></div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row d-inline-block">
+                  <div class="col-form-label">
+                    <label for="pinguino1">Posicion pinguino1:</label>
+                  </div>
+                  <div class="col-6 d-inline-flex">
+                    <label for="pinguino1X">X:</label>
+                    <div class="col-3"><input type="number" class="form-control" id="pinguino1X"></div>
+                    <label for="pinguino1Y">Y:</label>
+                    <div class="col-3"><input type="number" class="form-control" id="pinguino1Y"></div>
+                  </div>
+                  <div class="col-form-label">
+                    <label for="pinguino1">Posicion pinguino2:</label>
+                  </div>
+                  <div class="col-6 d-inline-flex">
+                    <label for="pinguino2X">X:</label>
+                    <div class="col-3"><input type="number" class="form-control" id="pinguino2X"></div>
+                    <label for="pinguino2Y">Y:</label>
+                    <div class="col-3"><input type="number" class="form-control" id="pinguino2Y"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="row d-inline-flex">
+                  <button type="submit" class="btn btn-primary" id="btn-draw">Draw</button>
+                  <button type="button" class="btn btn-secondary" id="btn-reset">Reset</button>
+                </div>
+              </div>
+          </form>
         </div>
-        <div class="form-group">
-            <label for="n">Posición vida:</label>
-            <input type="number" class="form-control" id="n" placeholder="Ingrese numbero de posiciones deseadas.">
-        </div>
-    </form>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
