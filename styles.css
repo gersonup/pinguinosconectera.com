@@ -9,3 +9,17 @@
     border-radius: 20px;
     padding: 30px;
 }
+
+.mapa {
+    border: 5px solid red;
+}
+
+.position {
+    border: 3px solid red;
+}
+
+.laberinto {
+    border: 3px solid black;
+    margin: 5px;
+    padding: 10;
+}
