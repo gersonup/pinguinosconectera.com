@@ -1,7 +1,7 @@
 *{
     margin: 0;
     padding: 0;
-    box-sizing: content-box;
+    box-sizing: border-box;
 }
 
 .main {
@@ -10,16 +10,22 @@
     padding: 30px;
 }
 
-.mapa {
-    border: 5px solid red;
-}
-
-.position {
-    border: 3px solid red;
-}
-
 .laberinto {
     border: 3px solid black;
     margin: 5px;
     padding: 10;
+    justify-content: space-around;
+    display: flex;
+}
+
+.mapa {
+    display: grid;
+    margin: 10px;
+    border: 5px solid red;
+}
+
+.position {
+    display: flex;
+    border: 1px solid red;
+    align-items: center;
 }
