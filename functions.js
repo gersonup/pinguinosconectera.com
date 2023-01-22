@@ -49,7 +49,7 @@ $(document).ready(function(){
         }
 
         function createBarriers(map) {
-            var maxNumBarriers = Math.floor(((Math.pow(map.length, 2) * 40)/100) + 1);
+            var maxNumBarriers = Math.floor(((Math.pow(map.length, 2) * 20)/100) + 1);
 
             let counter = 0;
 
@@ -103,7 +103,7 @@ $(document).ready(function(){
 
     // GAME PLACE
 
-    $("#btn-set").click(function(e) {
+    $("#btn-start").click(function(e) {
         e.preventDefault();
 
         const Direction = {
@@ -113,8 +113,11 @@ $(document).ready(function(){
             right: 3
         }
 
-        function startGame() {
+        startGame();
 
+        function startGame() {
+            move();
+            console.log("opt3:", map);
         }
 
         function searchElement(element) {
@@ -128,15 +131,45 @@ $(document).ready(function(){
             }
         }
 
+        function moveElement(element, p, x, y) {
+            if(map[p[0]+x][p[1]+y] == Elements.space || map[p[0]+x][p[1]+y] == Elements.penguin1 || map[p[0]+x][p[1]+y] == Elements.penguin2) {
+                map[p[0]+x][p[1]+y] = element;
+                map[p[0]][p[1]] = Elements.space;
+            }
+        }
+
         function move() {
             
             let p1 = searchElement(Elements.penguin1);
-            let p2 = searchElement(Elements.penguin12);
+            let p2 = searchElement(Elements.penguin2);
+
+            let direction = randomStep();
+
+            console.log("direction: " , direction);
+
+            switch(direction) {
+                case Direction.up:
+                    moveElement(Elements.penguin1,p1, 0, -1);
+                    moveElement(Elements.penguin2,p2, 0, -1);
+                    break;
+                case Direction.down:
+                    moveElement(Elements.penguin1,p1, 0, 1);
+                    moveElement(Elements.penguin2,p2, 0, 1);
+                    break;
+                case Direction.left:
+                    moveElement(Elements.penguin1, p1, -1, 0);
+                    moveElement(Elements.penguin2, p2, 1, 0);
+                    break;
+                case Direction.right:
+                    moveElement(Elements.penguin1, p1, 1, 0);
+                    moveElement(Elements.penguin2, p2, -1, 0);
+                    break;
+            }
         }
         
         function randomStep() {
 
-            let step = Math.floor((Math.random() * Direction.length - 1) + 1);
+            let step = Math.floor((Math.random() * 4 - 1) + 1);
             return step;
         }
     });
