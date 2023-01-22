@@ -1,7 +1,17 @@
-$(document).ready(function(){
-    $("#btn-draw").click(function(e) {
-        e.preventDefault();
+var map;
 
+const Elements = {
+    space: 0,
+    barrier : 1,
+    penguin1 : 2,
+    penguin2 : 3,
+    life : 4,
+    same: 32,
+}
+
+$(document).ready(function(){
+    $("#btn-draw").click(function(e){
+        e.preventDefault();
         // Elements Dictionary
         const elementos = {
             "wall"      : '<div class="wall"><b>W</b></div>',
@@ -11,78 +21,123 @@ $(document).ready(function(){
             "goal"      : '<div class="goal"><b></b>G</div>'
         }
 
-        //Number of barriers
+         //Number of barriers
         let n = $("#n").val();
-        let vidaX = $("#vidaX").val();
-        let vidaY = $("#vidaY").val();
-        let pinguino1X = $("#pinguino1X").val();
-        let pinguino1Y = $("#pinguino1Y").val();
-        let pinguino2x = $("#pinguino2X").val();
-        let pinguino2Y = $("#pinguino2Y").val();
 
-        if (n >= 10) {
-            createLaberinto(n);
+        if (n > 10) {
+            map = createMap(n);
+            console.log("opt1: ", map);
+            
         } else {
-            alert("La medida minima es 17.");
+            alert("minimo 10");
         }
 
-        function createBarries(matrixLength) {
-            var maxNumBarriers = Math.floor(((Math.pow(matrixLength, 2) * 30)/100) + 1);
-
-            console.log("power2: " + Math.pow(matrixLength, 2));
-            console.log("maxnumBarriers:" + maxNumBarriers);
-
-            var barriers = new Array();
-            var barrier = new Array();
-            for (let i = 0; i < maxNumBarriers; i++) {
-                barriers[i] = new Array();
-                barrier[i] = new Array();
-                for (let j = 0; j < 2; j++) {
-                    barrier[i][j] = Math.floor((Math.random() * matrixLength) + 1);
-                }
-                if (!barriers.includes(barrier[i])) {
-                    barriers[i] = barrier[i]
-                }
-            }
-
-            console.log(barriers);
-            return barriers;
-        }
-
-        function createLaberinto(size) {
-            console.clear();
-
-            var barriers = createBarries(size);
-            var row = new Array();
-
-            // Create matrix
+        function createMap(size) {
+            let map = new Array();
+            
+            // Create matrix with wall
             for (let i = 0; i < size; i++) {
-                row[i] = new Array();
+                map[i] = new Array();
                 for (let j = 0; j < size; j++) {
-                    row[i][j] = 0;
+                    map[i][j] = i==0 || j == 0 || j == (size - 1) || i == (size - 1) ? Elements.barrier : Elements.space;
                 } 
             }
-            
-            console.log(row);
-            console.log(row.length);
-            //console.log("position: " + row[vidaX][vidaY]);
-            
-            //Random function
-            //Math.floor((Math.random() * 1) + 1);
 
-            /* $("#laberinto").empty();
-            $("#laberinto").append(`<div class="mapa"></div>`);
-            for (let j = 0; j < size; j++) {
-                for (let k = 0; k < size; k++) {
-                    $(".mapa").append(`<div class="position" id="div-${j}-${k}></div>`);
-                } 
+            map = createBarriers(map);
+            
+            return map;
+        }
+
+        function createBarriers(map) {
+            var maxNumBarriers = Math.floor(((Math.pow(map.length, 2) * 40)/100) + 1);
+
+            let counter = 0;
+
+            while(maxNumBarriers > counter) {
+                let x = Math.floor((Math.random() * map.length -1) + 1);
+                let y = Math.floor((Math.random() * map.length -1) + 1);
+                if (map[x][y] == 0) {
+                    map[x][y] = Elements.barrier;
+                    counter ++;
+                }
             }
-            $(".mapa").css({ 
-                "width": `${size * 30}`, 
-                "height": `${size * 30}`, 
-                "grid-template-columns": `repeat(${size}, 1fr)`, 
-                "grid-template-rows": `repeat(${size}, 1fr)` 
-            });   */
+
+            return map
+        }
+
+    });
+
+    $("#btn-set").click(function(e) {
+        e.preventDefault();
+
+        let lifeX = $("#vidaX").val();
+        let lifeY = $("#vidaY").val();
+        let p1X = $("#pinguino1X").val();
+        let p1Y = $("#pinguino1Y").val();
+        let p2X = $("#pinguino2X").val();
+        let p2Y = $("#pinguino2Y").val();
+        
+        map = setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y);
+
+        console.log("opt 2: ", map);
+
+        function setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y) {
+            
+            setElement(map, Elements.life, lifeX, lifeY);
+            setElement(map, Elements.penguin1, p1X, p1Y);
+            setElement(map, Elements.penguin2, p2X, p2Y);
+            
+            return map;
+        }
+
+        function setElement(map, element, x, y) {
+
+            if (map[x][y] == 0) {
+                map[x][y] = element;
+            } else {
+                alert (`casilla para ${element} no valida para ubicar`);
+            }
+        }
+    });
+
+
+    // GAME PLACE
+
+    $("#btn-set").click(function(e) {
+        e.preventDefault();
+
+        const Direction = {
+            up : 0,
+            down: 1,
+            left: 2,
+            right: 3
+        }
+
+        function startGame() {
+
+        }
+
+        function searchElement(element) {
+            
+            for(let i = 0; i < map.length; i ++) {
+                for( let j = 0; j < map.length; j ++) {
+                    if (map[i][j] == element) {
+                        return [i,j];
+                    }
+                }
+            }
+        }
+
+        function move() {
+            
+            let p1 = searchElement(Elements.penguin1);
+            let p2 = searchElement(Elements.penguin12);
+        }
+        
+        function randomStep() {
+
+            let step = Math.floor((Math.random() * Direction.length - 1) + 1);
+            return step;
         }
     });
 });
