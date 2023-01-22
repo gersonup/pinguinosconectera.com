@@ -8,9 +8,10 @@
     <!-- JQuery CDN-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="styles.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+  
     <script src="functions.js"></script>
 
     <title>pinguinos Conectera</title>
@@ -88,10 +89,29 @@
                 </div>
               </div>
           </form>
-        
         </div>
           <!--Matriz-->
-          <div class="container-flex" id="laberinto"></div>
+
+          <div class="container-flex">
+            <div class="row">
+              <div class="labyrinth">
+               
+                <div class="wall">WALL</div>
+                <div class="space">SPACE</div>
+                <div class="barrier">BARRIER</div>
+                <div class="penguin1">
+                  <img src= "resources/penguin1.jpg" width = "100" height = "100">  
+                </div>
+                <div class="penguin2">
+                  <img src= "resources/penguin2.jpg" width = "100" height = "100">  
+                </div>
+                <div class="life">
+                  <img src= "resources/life.jpg" width = "100" height = "100">  
+                </div>
+              </div>
+            </div>
+          </div>
+          
       </div>
     </div>
 

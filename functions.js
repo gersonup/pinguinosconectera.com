@@ -6,6 +6,7 @@ const Elements = {
     penguin1 : 2,
     penguin2 : 3,
     life : 4,
+    wall : 5,
     same: 32,
 }
 
@@ -39,7 +40,7 @@ $(document).ready(function(){
             for (let i = 0; i < size; i++) {
                 map[i] = new Array();
                 for (let j = 0; j < size; j++) {
-                    map[i][j] = i==0 || j == 0 || j == (size - 1) || i == (size - 1) ? Elements.barrier : Elements.space;
+                    map[i][j] = i==0 || j == 0 || j == (size - 1) || i == (size - 1) ? Elements.wall : Elements.space;
                 } 
             }
 
@@ -113,10 +114,19 @@ $(document).ready(function(){
             right: 3
         }
 
-        startGame();
+        let counter = 0; 
+
+        while(counter < 30) {
+            setInterval(startGame,1000);
+            
+            counter ++;
+        }
+
 
         function startGame() {
-            move();
+            
+            move()
+            console.clear();
             console.log("opt3:", map);
         }
 
@@ -168,7 +178,6 @@ $(document).ready(function(){
         }
         
         function randomStep() {
-
             let step = Math.floor((Math.random() * 4 - 1) + 1);
             return step;
         }
