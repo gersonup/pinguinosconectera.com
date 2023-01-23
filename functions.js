@@ -10,6 +10,18 @@ const Elements = {
     same: 32,
 }
 
+function searchElement(element) {
+            
+    for(let i = 0; i < map.length; i ++) {
+        for( let j = 0; j < map.length; j ++) {
+            if (map[i][j] == element) {
+                return [i,j];
+            }
+        }
+    }
+    return [];
+}
+
 $(document).ready(function(){
     $("#btn-draw").click(function(e){
         e.preventDefault();
@@ -74,9 +86,13 @@ $(document).ready(function(){
         map = setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y);
 
         printMap(map);
-        console.log("opt 2: ", map);
 
         function setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y) {
+
+            dropElement(Elements.life);
+            dropElement(Elements.penguin1);
+            dropElement(Elements.penguin2);
+            dropElement(Elements.same);
             
             setElement(map, Elements.life, lifeX, lifeY);
             setElement(map, Elements.penguin1, p1X, p1Y);
@@ -87,10 +103,17 @@ $(document).ready(function(){
 
         function setElement(map, element, x, y) {
 
-            if (map[x][y] == 0) {
+            if (map[x][y] == Elements.space) {
                 map[x][y] = element;
             } else {
                 alert (`casilla para ${element} no valida para ubicar`);
+            }
+        }
+
+        function dropElement(element) {
+            let elementToDrop = searchElement(element);
+            if (elementToDrop > 0) {
+                map[elementToDrop[0]][elementToDrop[1]] = Elements.space;
             }
         }
     });
@@ -116,48 +139,95 @@ $(document).ready(function(){
         
 
         function startGame() {
-            console.clear();
+            let positionP1 = searchElement(Elements.penguin1);
+            let positionP2 = searchElement(Elements.penguin2);
+            let same = searchElement(Elements.same);
             let counter = 0;
             let stepsP1 = 0;
-            let stepsp2 = 0;
+            let stepsP2 = 0;
+            let penguin1Exit = false;
+            let penguin2Exit = false;
 
-            while (counter < 100) {
+            while (counter < 1000 && (positionP1.length > 0 || positionP2.length > 0 || same.length > 0)) {
+
                 setTimeout(function() {
+
                     move();
-                    printMap(map);
+
+                    positionP1 = searchElement(Elements.penguin1);
+                    positionP2 = searchElement(Elements.penguin2);
+                    same = searchElement(Elements.same);
+
+                    if(positionP1.length > 0 || same.length > 0) {
+                        stepsP1 ++;
+                    } else if (!penguin1Exit) {
+                        // TODO: imprimir counter del pinguino uno.
+                        alert("El pinguino 1 llego a la vida con " + (stepsP1 + 1) + " pasos.");
+                        penguin1Exit = true;
+                    }
+
+                    if(positionP2.length > 0 || same.length > 0) {
+                        stepsP2 ++;
+                    } else if (!penguin2Exit) {
+                        // TODO: imprimir counter del pinguino uno.
+                        alert("El pinguino 2 llego a la vida con " + (stepsP2 + 1) + " pasos.");
+                        penguin2Exit = true;
+                    }
+
+                    if (positionP1.length > 0 || same.length > 0|| positionP2.length > 0 || same.length > 0) {
+
+                        printMap(map);
+
+                    }
                 }, 250*counter);
                 counter ++;
             }
             
         }
 
-        function searchElement(element) {
-            
-            for(let i = 0; i < map.length; i ++) {
-                for( let j = 0; j < map.length; j ++) {
-                    if (map[i][j] == element) {
-                        return [i,j];
-                    }
-                }
-            }
-        }
-
         function moveElement(element, p, x, y) {
-            if(map[p[0]+x][p[1]+y] == Elements.space) {
+
+            if( p.length == 0) {
+                return;
+            }
+
+            if (map[p[0]][p[1]] == Elements.same && Elements.penguin1 == element) {
+
+                map[p[0]+x][p[1]+y] = element;
+                map[p[0]][p[1]] = Elements.penguin2;
+
+            } else if (map[p[0]][p[1]] == Elements.same && Elements.penguin2 == element) {
+
+                map[p[0]+x][p[1]+y] = element;
+                map[p[0]][p[1]] = Elements.penguin1;
+
+            } else if(map[p[0]+x][p[1]+y] == Elements.space) {
+
                 map[p[0]+x][p[1]+y] = element;
                 map[p[0]][p[1]] = Elements.space;
-              
+
             } else if (map[p[0]+x][p[1]+y] == Elements.penguin1 || map[p[0]+x][p[1]+y] == Elements.penguin2) {
+
                 map[p[0]+x][p[1]+y] = Elements.same;
                 map[p[0]][p[1]] = Elements.space;
-            }
-            printMap(map);
+
+            }  else if(map[p[0]+x][p[1]+y] == Elements.life) {
+
+                map[p[0]][p[1]] = Elements.space;
+            } 
+
         }
 
         function move() {
-            
+ 
             let p1 = searchElement(Elements.penguin1);
             let p2 = searchElement(Elements.penguin2);
+            let same = searchElement(Elements.same);
+
+            if(same.length > 0) {
+                p1 = same;
+                p2 = same;
+            }
 
             let direction = randomStep();
 

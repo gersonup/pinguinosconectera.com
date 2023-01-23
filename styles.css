@@ -76,6 +76,7 @@
 .same {
     border: 2px solid rgb(0, 0, 0);
     border-radius: 10px;
+    background-color: blueviolet;
 }
 
 .wall, .space, .barrier, .penguin1, .penguin2, .life, .same {
