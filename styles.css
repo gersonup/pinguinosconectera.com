@@ -10,49 +10,39 @@
     padding: 30px;
 }
 
-.laberinto {
-    border: 3px solid black;
-    margin: 5px;
-    padding: 10;
-    justify-content: space-around;
-    display: flex;
-}
-
-.mapa {
-    display: grid;
-    margin: 10px;
-    border: 5px solid red;
-}
-
 .position {
     display: flex;
     border: 1px solid red;
     align-items: center;
 }
 
-.row {
-    display: flex;
+
+
+
+
+
+
+/* Game elements*/
+
+.labyrinth {
+    display: grid;
+    margin: 10px;
+    border: 5px solid red;
 }
 
 .wall {
-    width: 100px;
-    height: 100px;
     background-color: red;
     border: 2px solid white;
     border-radius: 10px;
 }
 
 .space {
-    width: 100px;
-    height: 100px;
     background-color: white;
     border: 2px solid rgb(180, 173, 173);
     border-radius: 10px;
 }
 
 .barrier {
-    width: 100px;
-    height: 100px;
     background-color: rgb(78, 204, 19);
     border: 2px solid rgb(180, 173, 173);
     border-radius: 10px;
@@ -60,22 +50,36 @@
 }
 
 .penguin1 {
-    width: 100px;
-    height: 100px;
     border: 2px solid rgb(180, 173, 173);
     border-radius: 10px;
+    background-image: url(resources/penguin1.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 .penguin2 {
-    width: 100px;
-    height: 100px;
     border: 2px solid rgb(180, 173, 173);
     border-radius: 10px;
+    background-image: url(resources/penguin2.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 .life {
-    width: 100px;
-    height: 100px;
     border: 2px solid rgb(180, 173, 173);
     border-radius: 10px;
+    background-image: url(resources/life.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.same {
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 10px;
+}
+
+.wall, .space, .barrier, .penguin1, .penguin2, .life, .same {
+
+    width: 30px;
+    height: 30px;
 }

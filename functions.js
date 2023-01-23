@@ -13,21 +13,14 @@ const Elements = {
 $(document).ready(function(){
     $("#btn-draw").click(function(e){
         e.preventDefault();
-        // Elements Dictionary
-        const elementos = {
-            "wall"      : '<div class="wall"><b>W</b></div>',
-            "barrier"   : '<div class="barrier"><b></b>B</div>',
-            "penguin1"  : '<div class="penguin1"><b></b>P1</div>',
-            "penguin2"  : '<div class="penguin2"><b></b>P2</div>',
-            "goal"      : '<div class="goal"><b></b>G</div>'
-        }
+        
 
          //Number of barriers
         let n = $("#n").val();
 
         if (n > 10) {
             map = createMap(n);
-            console.log("opt1: ", map);
+            printMap(map);
             
         } else {
             alert("minimo 10");
@@ -80,6 +73,7 @@ $(document).ready(function(){
         
         map = setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y);
 
+        printMap(map);
         console.log("opt 2: ", map);
 
         function setGame(map,lifeX,lifeY,p1X,p1Y,p2X,p2Y) {
@@ -116,18 +110,25 @@ $(document).ready(function(){
 
         let counter = 0; 
 
-        while(counter < 30) {
-            setInterval(startGame,1000);
-            
-            counter ++;
-        }
-
+        
+        startGame();
+     
+        
 
         function startGame() {
-            
-            move()
             console.clear();
-            console.log("opt3:", map);
+            let counter = 0;
+            let stepsP1 = 0;
+            let stepsp2 = 0;
+
+            while (counter < 100) {
+                setTimeout(function() {
+                    move();
+                    printMap(map);
+                }, 250*counter);
+                counter ++;
+            }
+            
         }
 
         function searchElement(element) {
@@ -142,10 +143,15 @@ $(document).ready(function(){
         }
 
         function moveElement(element, p, x, y) {
-            if(map[p[0]+x][p[1]+y] == Elements.space || map[p[0]+x][p[1]+y] == Elements.penguin1 || map[p[0]+x][p[1]+y] == Elements.penguin2) {
+            if(map[p[0]+x][p[1]+y] == Elements.space) {
                 map[p[0]+x][p[1]+y] = element;
                 map[p[0]][p[1]] = Elements.space;
+              
+            } else if (map[p[0]+x][p[1]+y] == Elements.penguin1 || map[p[0]+x][p[1]+y] == Elements.penguin2) {
+                map[p[0]+x][p[1]+y] = Elements.same;
+                map[p[0]][p[1]] = Elements.space;
             }
+            printMap(map);
         }
 
         function move() {
@@ -159,20 +165,20 @@ $(document).ready(function(){
 
             switch(direction) {
                 case Direction.up:
-                    moveElement(Elements.penguin1,p1, 0, -1);
-                    moveElement(Elements.penguin2,p2, 0, -1);
+                    moveElement(Elements.penguin1,p1, -1, 0);
+                    moveElement(Elements.penguin2,p2, -1, 0);
                     break;
                 case Direction.down:
-                    moveElement(Elements.penguin1,p1, 0, 1);
-                    moveElement(Elements.penguin2,p2, 0, 1);
+                    moveElement(Elements.penguin1,p1, 1, 0);
+                    moveElement(Elements.penguin2,p2, 1, 0);
                     break;
                 case Direction.left:
-                    moveElement(Elements.penguin1, p1, -1, 0);
-                    moveElement(Elements.penguin2, p2, 1, 0);
+                    moveElement(Elements.penguin1, p1, 0, -1);
+                    moveElement(Elements.penguin2, p2, 0, 1);
                     break;
                 case Direction.right:
-                    moveElement(Elements.penguin1, p1, 1, 0);
-                    moveElement(Elements.penguin2, p2, -1, 0);
+                    moveElement(Elements.penguin1, p1, 0, 1);
+                    moveElement(Elements.penguin2, p2, 0, -1);
                     break;
             }
         }
@@ -183,3 +189,51 @@ $(document).ready(function(){
         }
     });
 });
+
+// Graphics Dictionary
+const Graphics = {
+    space : '<div class="space" title="%title%"></div>',
+    barrier  : '<div class="barrier" title="%title%"></div>',
+    penguin1  : '<div class="penguin1" title="%title%"></div>',
+    penguin2 : '<div class="penguin2" title="%title%"></div>',
+    life     : '<div class="life" title="%title%"></div>',
+    wall : '<div class="wall" title="%title%"></div>',
+    same : '<div class="same" title="%title%"></div>'
+}
+
+function printMap(matrix) {
+
+    let html = "";
+
+    for (let i =0; i < matrix.length; i ++ ) {
+        html += '<div class="row">';
+        for (j = 0; j < matrix.length; j ++) {
+           
+            switch (map[i][j]) {
+                case Elements.space:
+                    html += Graphics.space.replace("%title%",i+","+j);
+                    break;
+                case Elements.barrier:
+                    html += Graphics.barrier.replace("%title%",i+","+j);
+                    break;
+                case Elements.penguin1:
+                    html += Graphics.penguin1.replace("%title%",i+","+j);
+                    break;
+                case Elements.penguin2:
+                    html += Graphics.penguin2.replace("%title%",i+","+j);
+                    break;
+                case Elements.life:
+                    html += Graphics.life.replace("%title%",i+","+j);
+                    break;
+                case Elements.wall:
+                    html += Graphics.wall.replace("%title%",i+","+j);
+                    break;
+                case Elements.same:
+                    html += Graphics.same.replace("%title%",i+","+j);
+                    break;
+            }
+        }
+        html += '</div>';
+    }
+    $(".labyrinth").html(html);
+}
