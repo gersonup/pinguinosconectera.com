@@ -170,7 +170,7 @@ $(document).ready(function(){
                         stepsP2 ++;
                     } else if (!penguin2Exit) {
                         // TODO: imprimir counter del pinguino uno.
-                        alert("El pinguino 2 llego a la vida con " + (stepsP2 + 1) + " pasos.");
+                        alert(`El pinguino 2 llego a la vida con ${stepsP2 + 1} pasos.`);
                         penguin2Exit = true;
                     }
 
